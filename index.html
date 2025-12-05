@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rent A Kayak Mostar</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    :root {
+      --river-blue: #3caea3;
+      --forest-green: #2e8b57;
+      --hill-brown: #8b5e3c;
+      --light-sky: #e0f7fa;
+      --white: #fff;
+      --dark-text: #333;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      color: var(--dark-text);
+      background: linear-gradient(to bottom, var(--light-sky), #b2dfdb);
+      line-height: 1.5;
+    }
+    header {
+      background: var(--forest-green);
+      color: var(--white);
+      text-align: center;
+      padding: 1rem;
+    }
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+    }
+    nav a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: bold;
+      transition: text-decoration 0.3s;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      max-width: 1000px;
+      margin: 1rem auto;
+      padding: 0 1rem;
+    }
+    /* Carousel styles */
+    .carousel {
+      position: relative;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      border-radius: 0;
+    }
+    .carousel img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .carousel img.active {
+      opacity: 1;
+    }
+    section {
+      background: rgba(255, 255, 255, 0.9);
+      margin-bottom: 1.5rem;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      color: var(--forest-green);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    /* Activities scroll */
+    .activities-nav {
+      position: relative;
+      margin-top: 1rem;
+    }
+    .scroll-btn {
+      position: absolute;
+      top: 40%;
+      transform: translateY(-50%);
+      background: var(--forest-green);
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 10;
+      opacity: 0.8;
+      border-radius: 5px;
+      user-select: none;
+    }
+    .scroll-btn.left {
+      left: 0;
+    }
+    .scroll-btn.right {
+      right: 0;
+    }
+    .activities-scroll {
+      overflow-x: auto;
+      white-space: nowrap;
+      scroll-behavior: smooth;
+      padding: 0.5rem 2.5rem;
+    }
+    .activities {
+      display: flex;
+      gap: 1rem;
+    }
+    .activity {
+      flex: 0 0 auto;
+      width: 280px;
+      border: 2px solid var(--river-blue);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .activity:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .activity img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-bottom: 2px solid var(--river-blue);
+    }
+    .activity-details {
+      padding: 1rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .activity-details p {
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #444;
+    }
+    .activity-details a {
+      align-self: flex-start;
+      background: var(--river-blue);
+      color: white;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.3s ease;
+    }
+    .activity-details a:hover,
+    .activity-details a:focus {
+      background: var(--forest-green);
+    }
+    /* Gallery */
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+    .image-grid img {
+      width: 100%;
+      border: 3px solid var(--river-blue);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .image-grid img:hover,
+    .image-grid img:focus {
+      transform: scale(1.05);
+      outline: none;
+    }
+    /* Contact */
+    #contact p,
+    #contact h3 {
+      margin-bottom: 0.5rem;
+    }
+    #contact a {
+      color: var(--hill-brown);
+      font-weight: bold;
+      text-decoration: none;
+    }
+    #contact a:hover,
+    #contact a:focus {
+      text-decoration: underline;
+    }
+    #contact iframe {
+      width: 100%;
+      height: 350px;
+      border: 0;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .social {
+      display: flex;
+      list-style: none;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .social a {
+      color: var(--hill-brown);
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 1.1rem;
+    }
+    .social a:hover,
+    .social a:focus {
+      text-decoration: underline;
+    }
+    form label {
+      font-weight: 600;
+    }
+    form input,
+    form textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      margin-bottom: 1rem;
+      border: 1.5px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      resize: vertical;
+      font-family: inherit;
+    }
+    form input:focus,
+    form textarea:focus {
+      border-color: var(--forest-green);
+      outline: none;
+      box-shadow: 0 0 4px var(--forest-green);
+    }
+    form button {
+      background: var(--forest-green);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-weight: 700;
+    }
+    form button:hover,
+    form button:focus {
+      background: var(--river-blue);
+    }
+    footer {
+      background: var(--hill-brown);
+      color: var(--white);
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      .activity {
+        width: 90vw !important;
+      }
+      iframe {
+        height: 250px !important;
+      }
+      .scroll-btn.left {
+        left: 0.2rem;
+      }
+      .scroll-btn.right {
+        right: 0.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Rent A Kayak Mostar</h1>
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#activities">Activities</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- Carousel -->
+<div class="carousel" aria-label="Image slideshow">
+  <img src="images/112.jpg" class="active" alt="River view" width=70% />
+  <img src="images/1.png" alt="Kayaking" width=70%/>
+  <img src="images/5.png" alt="Neretva river "  width=70% />
+  <img src="images/112.jpg" alt="Nature view"  width=70% />
+</div>
+
+<main id="home">
+  <section id="about">
+    <h2>Explore Mostar from the Water</h2>
+    <p>Kayak rental on the beautiful Neretva River. Enjoy nature, relax, and discover hidden gems of Herzegovina. Lake Mostar is only 10 minutes away driving north of the city . It is about 12 km long . In a short timeyou can truly enjoy being on the water surronded by nature that is still preserved. The advantage of this lake is the calmnes that mostly prevails on it.</p>
+  </section>
+
+  <section id="activities">
+    <h2>Activities</h2>
+
+    <div class="activities-nav" aria-label="Scrollable activities list">
+      <button class="scroll-btn left" aria-label="Scroll activities left">&#8592;</button>
+      <div class="activities-scroll" tabindex="0">
+        <div class="activities">
+
+          <article class="activity" tabindex="0" aria-labelledby="activity1-title">
+            <img src="images/3.png" alt="Rent a Kayak" />
+            <div class="activity-details">
+              <h3 id="activity1-title">Rent A Kayak</h3>
+              <p>RENT A KAYAK:  (unlimited use)
+KAYAK RENTAL IS 20EUR/per person, with grilled ćevapi afterwards 35EUR/ per person
+(+ includes ,various side dishes,salads from the garden…)
+In the food option we offer barbecue or traditional meal under the sač with local veal.
+(other by arrangement)
+
+Motor boat rental is 50 eur/day</p>
+              <a href="rent-a-kayak.html" target="_blank" rel="noopener">Read more</a>
+            </div>
+          </article>
+
+          <article class="activity" tabindex="0" aria-labelledby="activity2-title">
+            <img src="images/17.png" alt="Raft Ride" />
+            <div class="activity-details">
+              <h3 id="activity2-title">Raft Ride on the Lake</h3>
+              <p>RAFT RIDE ON THE LAKE:
+Sightseeing of Mostar Lake with its colorful flora and fauna, and swimming during the ride.
+Ride duration 4-5 hours or more, max capacity: 10 people
+Price 30Eur/person
+With barbecue on the water during the ride 60 Eur/person
+
+OTHER ACTIVITIES: 
+Biking - along the lake, possibility of kayaking on the way back  30Eur/ per person
+Fishing - instructor and equipment provided                                  15Eur/ per person</p>
+              <a href="raft-ride.html" target="_blank" rel="noopener">Read more</a>
+            </div>
+          </article>
+
+          <article class="activity" tabindex="0" aria-labelledby="activity3-title">
+            <img src="images/507.jpg" alt="Horseback Riding" />
+            <div class="activity-details">
+              <h3 id="activity3-title">Horseback Riding</h3>
+              <p>HORSE RIDING and a trip to the beach  (optional)
+
+The equestrian club has 6 horses and on the property there is a traditional Herzegovinian tavern that offers some famous dishes from this region.
+The plan for the day would be to depart at 10am, finish the riding and have lunch until around 2pm, then go to the beach on the Trebižat River next to the Kravice waterfalls.
+Return around 6-7pm or by arrangement.
+This day tour INCLUDES: 
+TRANSPORTATION 
+HORSE RIDING 
+LUNCH ,SWIMMING ON THE TREBIŽAT RIVER (optional)
+NOT INCLUDED:
+Insurance, Daily drinks
+Driving plan: Mostar,Grude,Ljubuški 
+Price 70eur/ per person, children 40euro</p>
+              <a href="horse-riding.html" target="_blank" rel="noopener">Read more</a>
+            </div>
+          </article>
+
+          <article class="activity" tabindex="0" aria-labelledby="activity4-title">
+            <img src="images/201.jpg" alt="Hiking" />
+            <div class="activity-details">
+              <h3 id="activity4-title">Hiking</h3>
+              <p>HIKING - Diva Grabovica- Zlijeb-Tise, Čvrsnica  
+ 
+                - Visit canyon of river  “Bijela”
+           
+Immediately after the village of Grabovica, the hiking trail plunges into a dense, first hornbeam, then beech forest and climbs up to the hiking house "Zlijeb".
+Five minutes from the mountain house, there is a viewpoint from which one of the most beautiful views of the valley and Veliki Kuk can be seen.
+The tour is not overly demanding, the trail is excellent, nicely marked and cleaned.
+The starting point is at 260m, and the finish at 1090m. It takes about 2 hours of easy ascent, where you can feel the real mountain, considering the environment itself.
+There are two sources of drinking water on the trail, standard hiking equipment is required
+Includes:
+Transport 
+A meal on the mountain
+Does not include:
+Insurance
+Drink
+The number of participants is unlimited.
+Meeting at the address Rent a Kayak or coming to pick you up at the address (by arrangement).
+Price: 60 eur/ 4 persons and more
+3 person -70
+2 person - 90 
+1 person -140</p>
+              <a href="hiking.html" target="_blank" rel="noopener">Read more</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+      <button class="scroll-btn right" aria-label="Scroll activities right">&#8594;</button>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <h2>Gallery</h2>
+    <div class="image-grid" aria-label="Gallery images">
+      <img src="images/10.png"  tabindex="0" />
+      <img src="images/14.png" tabindex="0" />
+      <img src="images/106.jpg"  tabindex="0" />
+      <img src="images/104.jpg"  tabindex="0" />
+      <img src="images/15.png"  tabindex="0" />
+      <img src="images/18.png"  tabindex="0" />
+      <img src="images/20.png"  tabindex="0" />
+      <img src="images/24.png"  tabindex="0" />
+      <img src="images/28.png" tabindex="0" />
+      <img src="images/6.png"  tabindex="0" />
+      <img src="images/9.png"  tabindex="0" />
+      <img src="images/4.png"  tabindex="0" />
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p>Address: Potoci b.b., 88000 Mostar</p>
+    <p>Phone: <a href="tel:+38763444228">(+387) 63-444-228</a></p>
+    <p>Viber/WhatsApp Available</p>
+
+    <h3>Find us on Google Maps:</h3>
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11594.323132202884!2d17.87023495!3d43.406690899999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134b5bd121d72981%3A0xb0a9e3c43a3a963b!2sRENT%20A%20KAYAK%20%26%20SUP!5e0!3m2!1shr!2sba!4v1753298294771!5m2!1shr!2sba"
+      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      aria-label="Google Maps location of Rent A Kayak & SUP"
+    ></iframe>
+
+    <h3>Follow us:</h3>
+    <ul class="social">
+      <li><a href="https://www.facebook.com/rent.a.kayak.2025" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+      <li><a href="https://www.instagram.com/rent.a.kayak/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+    </ul>
+
+    
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 Rent A Kayak Mostar. All rights reserved.
+</footer>
+
+<script>
+  // Carousel
+  const carouselImages = document.querySelectorAll('.carousel img');
+  let currentSlide = 0;
+  const slideInterval = 4000;
+
+  function showSlide(index) {
+    carouselImages.forEach((img, i) => {
+      img.classList.toggle('active', i === index);
+    });
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % carouselImages.length;
+    showSlide(currentSlide);
+  }
+  setInterval(nextSlide, slideInterval);
+
+  // Activities scroll buttons
+  const scrollLeftBtn = document.querySelector('.scroll-btn.left');
+  const scrollRightBtn = document.querySelector('.scroll-btn.right');
+  const activitiesScroll = document.querySelector('.activities-scroll');
+
+  scrollLeftBtn.addEventListener('click', () => {
+    activitiesScroll.scrollBy({ left: -280, behavior: 'smooth' });
+  });
+  scrollRightBtn.addEventListener('click', () => {
+    activitiesScroll.scrollBy({ left: 280, behavior: 'smooth' });
+  });
+
+  // Gallery lightbox
+  const galleryImages = document.querySelectorAll('.image-grid img');
+  const lightbox = document.createElement('div');
+  lightbox.classList.add('lightbox');
+  document.body.appendChild(lightbox);
+
+  lightbox.addEventListener('click', () => {
+    lightbox.style.display = 'none';
+    lightbox.innerHTML = '';
+  });
+
+  galleryImages.forEach(img => {
+    img.addEventListener('click', () => {
+      lightbox.innerHTML = `<img src="${img.src}" alt="${img.alt}" />`;
+      lightbox.style.display = 'flex';
+    });
+    img.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        lightbox.innerHTML = `<img src="${img.src}" alt="${img.alt}" />`;
+        lightbox.style.display = 'flex';
+      }
+    });
+  });
+
+  // Contact form submission placeholder
+  const form = document.getElementById('contact-form');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Thank you for contacting us! We will get back to you shortly.');
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
