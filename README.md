@@ -2,6 +2,8 @@
 Web app for renting kayaks
 🛶 Rent A Kayak Mostar – Web Project
 
+https://rentakayakmostar.com/
+
 Rent A Kayak Mostar is a responsive promotional website designed to present kayak rental services and outdoor activities on the beautiful Neretva River near Mostar, Bosnia and Herzegovina. The website provides visitors with clear information, visual inspiration, and an easy way to explore available activities.
 
 This project was built as a frontend web application using pure HTML, CSS, and JavaScript without any external frameworks.
